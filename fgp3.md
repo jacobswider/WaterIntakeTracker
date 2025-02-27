@@ -7,3 +7,7 @@ Our general timeline is turning all stages FPG 4 5 6 and 7 on time by staying co
 We are going to be using Snapchat and Discord for communication.
 Any time is working hours. Response time within an hour.
 Contact info for emails: schit7@uic.edu, eirim2@uic.edu, jswid3@uic.edu 
+
+# Roles
+Sai will be front-end developer. Jacob will be back-end developer. Ethan will be project lead.
+
