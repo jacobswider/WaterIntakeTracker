@@ -23,3 +23,7 @@ Track 2:
 Track 3:
     Idea A - Website/App that allows people to upload personal photos or videos of things relating to specific art/music/languages
     Idea B - Website/App that allows people to show traditional music from their culture
+# Jake's Brainstorm
+Track 1 - Screentime Limit and Sleep Timer
+Track 2 - Lecture Question and Assignment Tracker
+Track 3 - Music Database and Music Map
