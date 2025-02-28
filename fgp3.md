@@ -27,3 +27,12 @@ Track 3:
 Track 1 - Screentime Limit and Sleep Timer
 Track 2 - Lecture Question and Assignment Tracker
 Track 3 - Music Database and Music Map
+
+# Sai's Brainstorm
+Track 1
+
+Idea 1: Digital journal app to improve mental health with pre-defined tasks. 
+Idea 2: Focus buddy. Users select a digital character that grows healthier with reduced screen time. More screen time makes the character tired, or sad. 
+
+Track 2: Attendance Tracker and UIC Dining line wait times
+Track 3: Halal Tracker App and Street food locator
