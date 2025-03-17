@@ -47,5 +47,22 @@ Week 4 (April 7-14): Continue polishing the project needed before the deadline.
 Week 5 (April 14-21): Continue polishing the project needed before the deadline and begin testing.
 Week 6 (April 21-28): Implement the log. Adding finishing touches for the project before deadline.
 
+DataSource & Backend Integration
+
+Data Source:
+- The app gets data from user inputs: barcode scans and manual water entries.
+- This method is appropriate since it directly tracks real-time water consumption.
+
+How Data is Pulled to the Backend:
+- When a user logs water intake (via scan or manual entry), the data (amount, time, barcode details) is sent straight to the backend.
+- The backend receives the data immediately and logs it using our data structures (like dictionaries for records and a trie for barcode lookups).
+
+Data Processing & Cleaning:
+- Incoming data is first validated to ensure it’s in the correct format (positive water amounts, proper timestamps).
+- Barcode data is processed with a trie to quickly match and verify product details.
+- Manual entries are standardized (like converting liters to milliliters) for consistency.
+- Any incomplete or faulty data is flagged for review or auto-corrected to maintain clean logs.
+
+
 
 ## Action Items (Work In Progress):
