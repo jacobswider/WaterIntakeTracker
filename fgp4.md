@@ -14,5 +14,6 @@ Ethan Irimiciuc, Jacob Swider
 ## Recent Progress:
 
 ## Meeting Notes: 
- 
+ Make App that tracks how much water you drink and when you drink enough water on the given day the program gives you a reward/points
+ Will implement a barcode scanner to track each bottle the user drinks or manualy add how much water drank
 ## Action Items (Work In Progress):
