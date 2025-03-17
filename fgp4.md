@@ -63,6 +63,15 @@ Data Processing & Cleaning:
 - Manual entries are standardized (like converting liters to milliliters) for consistency.
 - Any incomplete or faulty data is flagged for review or auto-corrected to maintain clean logs.
 
+Data Structures:
 
+We opt to use a dictionary for our log as we can assign a day to each log, and map specific amounts of values of water to times/dates. This is optimal becasue we can set up dictionary to have everything sorted chronologically.
+
+We will also implement a trie for barcode search. A trie will have fast lookup and search which is optimal for our case.
+
+Alternative Data Structures:
+
+Stack: We considered stack for our log but didnt use it because dictionary was better
+Priority Queue: Implementation did not seem as clean as a stack of dictionary implementation for a log
 
 ## Action Items (Work In Progress):
