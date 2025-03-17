@@ -7,7 +7,7 @@ Please note that this is the required layout for the weekly notes.
 **Where**:  Discord
 
 ## Attendance
-Ethan Irimiciuc, Jacob Swider
+Ethan Irimiciuc, Jacob Swider, Sai Chittala
 **Late**: Name (why)  
 **Missing**: N/A
 
