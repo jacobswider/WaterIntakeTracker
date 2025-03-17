@@ -38,8 +38,14 @@ Ethical Issues:
     Data Privacy and Security: Logs water intake and barcode info.
     Informed Consent: Get explicit permission from users
     
+Project Breakdown:
 
-
+Week 1 (March 17-24): Plan the application out for the upcoming milestones.
+Week 2 (March 24-31): Developing the front-end for basic testing purposes, like checking if buttons work properly or not.
+Week 3 (March 21-April 7): Developing the back-end needed. Start implementing the data structures and testing them out little by little. Have a rough draft ready for fgp5 milestone
+Week 4 (April 7-14): Continue polishing the project needed before the deadline.
+Week 5 (April 14-21): Continue polishing the project needed before the deadline and begin testing.
+Week 6 (April 21-28): Implement the log. Adding finishing touches for the project before deadline.
 
 
 ## Action Items (Work In Progress):
