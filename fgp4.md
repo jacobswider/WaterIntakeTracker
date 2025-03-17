@@ -34,5 +34,12 @@ Back End:
     Stack/dictionary for keeping track of log
     Trie for the barcode search
 
+Ethical Issues:
+    Data Privacy and Security: Logs water intake and barcode info.
+    Informed Consent: Get explicit permission from users
+    
+
+
+
 
 ## Action Items (Work In Progress):
