@@ -1,5 +1,7 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import water from './water.png';
+import manualButton from './manualbutton.png';
+import addAmount from './addamount.png';
 
 function App() {
   return (
