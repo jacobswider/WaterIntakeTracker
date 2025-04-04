@@ -25,7 +25,15 @@ function App() {
       body : JSON.stringify({ waterValue: amount})
        }
       )
-      
+       .then(response => {
+        if(response.status === 200) { //if response is ok (code 200)
+          alert("Number recieved on backend")
+        }
+        else{
+          alert("Unexpected response from backend")
+        }
+       })
+
     } else {
       // If not a valid number show message
       alert("The input is not a valid number.");
