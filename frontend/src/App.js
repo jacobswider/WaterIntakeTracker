@@ -4,6 +4,24 @@ import manualButton from './manualbutton.png';
 import addAmount from './addamount.png';
 
 function App() {
+  const addWater = () => {
+
+    // Open a pop up asking to enter amount of water drank in mL
+    const input = window.prompt("Enter water drank in mL: ");
+
+    // Convert the input string to a number
+    const amount = parseFloat(input);
+    
+    // Check if the input is a valid number
+    if (!isNaN(amount)) {
+      // If it's a valid number show message with the number
+      alert("You entered: " + amount);
+    } else {
+      // If not a valid number show message
+      alert("The input is not a valid number.");
+    }
+
+  };
   return (
     <div>
       <img 
@@ -31,11 +49,13 @@ function App() {
         src={manualButton} 
         alt="Manual Button" 
         style={{
+          cursor: 'pointer',
           position: 'absolute',  
           top: '670px',          
           left: '30px',         
           width: '150px'         
-        }} 
+        }}
+        onClick={addWater}
       />
     </div>
   );
