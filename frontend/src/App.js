@@ -2,6 +2,7 @@ import React from 'react';
 import water from './water.png'; 
 import manualButton from './manualbutton.png'; 
 import addAmount from './addamount.png';
+import title from './title.png';
 
 function App() {
   const addWater = () => {
@@ -75,6 +76,18 @@ function App() {
         }}
         onClick={addWater}
       />
+      <img
+    	src={title}
+    	alt="Title"
+    	style={{
+      	position: 'absolute',  
+      	top: '75px',     	 
+      	left: '50%',   
+      	transform: 'translate(-50%, -50%)', 	 
+      	width: '550px'    	 
+    	}}
+    	onClick={addWater}
+  	/>
     </div>
   );
 }
