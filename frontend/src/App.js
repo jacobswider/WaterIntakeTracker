@@ -19,21 +19,19 @@ function App() {
       alert("You entered: " + amount);
 
       fetch('http://localhost:5000/api/water', {
-      method: 'POST', 
-      headers : {
-        'Content-Type': 'application/json',
-      },
-      body : JSON.stringify({ waterValue: amount})
-       }
-      )
-       .then(response => {
-        if(response.status === 200) { //if response is ok (code 200)
-          alert("Number recieved on backend")
-        }
-        else{
-          alert("Unexpected response from backend")
-        }
-       })
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ waterValue: amount })
+})
+.then(response => response.json())
+.then(data => {
+  alert("Total water so far: " + data.totalWater + " mL");
+})
+.catch(error => {
+  console.error('Error:', error);
+});
 
     } else {
       // If not a valid number show message
@@ -86,6 +84,7 @@ function App() {
       	transform: 'translate(-50%, -50%)', 	 
       	width: '550px'    	 
     	}}
+    	onClick={addWater}
   	/>
     </div>
   );

@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -13,8 +13,8 @@ def addWater():
     waterAmount = data.get('waterValue')
 
     waterLog.append(waterAmount) #add new entry into our log
-
-    return '' #Should work on getting more informational codes
+    total = sum(waterLog)
+    return jsonify({'totalWater': total})
 
 if __name__ == '__main__':
     app.run()
