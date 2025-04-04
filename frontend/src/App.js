@@ -16,6 +16,16 @@ function App() {
     if (!isNaN(amount)) {
       // If it's a valid number show message with the number
       alert("You entered: " + amount);
+
+      fetch('http://localhost:5000/api/water', {
+      method: 'POST', 
+      headers : {
+        'Content-Type': 'application/json',
+      },
+      body : JSON.stringify({ waterValue: amount})
+       }
+      )
+      
     } else {
       // If not a valid number show message
       alert("The input is not a valid number.");
