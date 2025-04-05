@@ -1,12 +1,15 @@
 import React from 'react'; 
 import water from './water.png'; 
 import manualButton from './manualbutton.png'; 
-import addAmount from './addamount.png';
+import addamount from './addamount.png';
 import title from './title.png';
 
-function App() {
-  const addWater = () => {
+// Global variable to store total water, let creates a variable that can be changed later
+let globalTotalWater = 0;
 
+function App() {
+  // This function is triggered when the manual button is clicked
+  const addWater = () => {
     // Open a pop up asking to enter amount of water drank in mL
     const input = window.prompt("Enter water drank in mL: ");
 
@@ -18,35 +21,68 @@ function App() {
       // If it's a valid number show message with the number
       alert("You entered: " + amount);
 
+      // Send a POST request to Flask backend with the water amount
       fetch('http://localhost:5000/api/water', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ waterValue: amount })
-})
-.then(response => response.json())
-.then(data => {
-  alert("Total water so far: " + data.totalWater + " mL");
-})
-.catch(error => {
-  console.error('Error:', error);
-});
-
+        method: 'POST',  // We use POST to send data
+        headers: {
+          'Content-Type': 'application/json',  // Tell server we're sending JSON
+        },
+        // Convert our data to a JSON string before sending
+        body: JSON.stringify({ waterValue: amount })
+      })
+      .then(response => response.json())  // Parse JSON response from the backend
+      .then(data => {
+        // Update the global variable with the new total water from the backend
+        globalTotalWater = data.totalWater;
+        
+        // Update the screen with new total water drank number in mL
+        document.getElementById('totalWaterDisplay').innerText = globalTotalWater + " mL";
+      })
     } else {
-      // If not a valid number show message
+      // If input not valid number show message
       alert("The input is not a valid number.");
     }
-
   };
+
+  // Get initial total when component loads
+  React.useEffect(() => {
+    fetch('http://localhost:5000/api/water', {
+      method: 'POST',  // Use POST to interact with our API
+      headers: {
+        'Content-Type': 'application/json',  // Tell server we're sending JSON
+      },
+      body: JSON.stringify({ waterValue: 0 }) // Send a JSON object with waterValue set to 0
+    })
+    .then(response => response.json())  // Convert response into a JSON object
+    .then(data => {
+      // Update global variable with the initial total
+      globalTotalWater = data.totalWater;
+
+      // Update the screen to show the updated total water
+      document.getElementById('totalWaterDisplay').innerText = globalTotalWater + " mL";
+    })
+  }, []);
+
   return (
     <div>
-      <img 
-        src={addAmount} 
-        alt="Add Amount" 
+      <div 
+        id="totalWaterDisplay"
         style={{
-          position: 'absolute',      
-          left: '0px',               
+          position: 'absolute',
+          left: '50%',
+          top: '29%',
+          transform: 'translate(-50%, -50%)',
+          fontSize: '36px',
+        }}
+      >
+        {globalTotalWater} mL
+      </div>
+      
+      <img 
+        src={addamount} 
+        alt="Add amount" 
+        style={{
+          position: 'absolute',                   
           top: '80%',                
           width: '225px'             
         }} 
@@ -75,19 +111,18 @@ function App() {
         onClick={addWater}
       />
       <img
-    	src={title}
-    	alt="Title"
-    	style={{
-      	position: 'absolute',  
-      	top: '75px',     	 
-      	left: '50%',   
-      	transform: 'translate(-50%, -50%)', 	 
-      	width: '550px'    	 
-    	}}
-    	onClick={addWater}
-  	/>
+        src={title}
+        alt="Title"
+        style={{
+          position: 'absolute',  
+          top: '75px',           
+          left: '50%',   
+          transform: 'translate(-50%, -50%)',    
+          width: '550px'         
+        }}
+      />
     </div>
   );
 }
 
-export default App; 
+export default App;

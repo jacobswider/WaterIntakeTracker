@@ -7,12 +7,13 @@ CORS(app)
 waterLog = []
 @app.route('/api/water', methods=['POST'])
 def addWater():
-
     data = request.get_json()
-
     waterAmount = data.get('waterValue')
 
-    waterLog.append(waterAmount) #add new entry into our log
+    # Only add to the log if the amount is greater than 0
+    if waterAmount > 0:
+        waterLog.append(waterAmount) #add new entry into our log
+    
     total = sum(waterLog)
     return jsonify({'totalWater': total})
 
