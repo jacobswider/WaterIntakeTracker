@@ -18,8 +18,6 @@ function App() {
     
     // Check if the input is a valid number
     if (!isNaN(amount)) {
-      // If it's a valid number show message with the number
-      alert("You entered: " + amount);
 
       // Send a POST request to Flask backend with the water amount
       fetch('http://localhost:5000/api/water', {
@@ -102,16 +100,16 @@ function App() {
       </div>
       
       <img 
-        src={manualButton}  // Reusing the button image for reset (could be a different image if available).
-        alt="Reset Button"   // Alt text: describes the button.
+        src={manualButton}  
+        alt="Reset Button"   
         style={{
-          cursor: 'pointer',   // Change cursor to pointer to show it's clickable.
+          cursor: 'pointer',   
           position: 'absolute',
-          top: '670px',        // Position from the top, slightly to the right of the manual add button.
-          left: '200px',       // Position it at 200px from the left.
-          width: '150px'       // Set the width.
+          top: '670px',        
+          left: '200px',       
+          width: '150px'       
         }}
-        onClick={resetWater} // Call resetWater when this button is clicked.
+        onClick={resetWater}
       />
 
       <img 
