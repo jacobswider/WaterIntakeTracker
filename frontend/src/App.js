@@ -44,6 +44,23 @@ function App() {
     }
   };
 
+  const resetWater = () => {
+    fetch('http://localhost:5000/api/reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      // The backend returns totalWater as 0 now
+      globalTotalWater = data.totalWater;
+      // Update the display element with the new total
+      document.getElementById('totalWaterDisplay').innerText = globalTotalWater + " mL";
+      alert("Water intake has been reset");
+    })
+  };
+
   // Get initial total when component loads
   React.useEffect(() => {
     fetch('http://localhost:5000/api/water', {
@@ -84,6 +101,19 @@ function App() {
         {globalTotalWater} mL
       </div>
       
+      <img 
+        src={manualButton}  // Reusing the button image for reset (could be a different image if available).
+        alt="Reset Button"   // Alt text: describes the button.
+        style={{
+          cursor: 'pointer',   // Change cursor to pointer to show it's clickable.
+          position: 'absolute',
+          top: '670px',        // Position from the top, slightly to the right of the manual add button.
+          left: '200px',       // Position it at 200px from the left.
+          width: '150px'       // Set the width.
+        }}
+        onClick={resetWater} // Call resetWater when this button is clicked.
+      />
+
       <img 
         src={addamount} 
         alt="Add amount" 

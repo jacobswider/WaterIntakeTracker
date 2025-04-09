@@ -17,5 +17,12 @@ def addWater():
     total = sum(waterLog)
     return jsonify({'totalWater': total})
 
+
+@app.route('/api/reset', methods=['POST'])
+def resetWater():
+    global waterLog # Declare using the global waterLog
+    waterLog = []  # Reset the log to an empty list
+    return jsonify({'totalWater': 0})  # Return 0 as the new total
+
 if __name__ == '__main__':
     app.run()
