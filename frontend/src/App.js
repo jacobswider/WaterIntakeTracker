@@ -64,7 +64,13 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div style={{
+      backgroundColor: '#d6f0ff', // pastel blue
+      height: '100vh',
+      width: '100vw',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
       <div 
         id="totalWaterDisplay"
         style={{
