@@ -3,6 +3,7 @@ import water from './water.png';
 import manualButton from './manualbutton.png'; 
 import addamount from './addamount.png';
 import title from './title.png';
+import reset from './reset.png';
 
 // Global variable to store total water, let creates a variable that can be changed later
 let globalTotalWater = 0;
@@ -106,7 +107,7 @@ function App() {
           cursor: 'pointer',   
           position: 'absolute',
           top: '670px',        
-          left: '200px',       
+          left: '88%',       
           width: '150px'       
         }}
         onClick={resetWater}
@@ -131,6 +132,16 @@ function App() {
           transform: 'translate(-50%, -50%)',  
           width: '350px'             
         }} 
+      />
+      <img 
+      src={reset} 
+      alt="reset" 
+      style={{
+        position: 'absolute', 
+        left: '85%',                    
+        top: '80%',                
+        width: '225px'             
+      }} 
       />
       <img 
         src={manualButton} 
