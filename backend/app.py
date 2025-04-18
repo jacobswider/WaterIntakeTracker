@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from openai import OpenAI
+import requests
 
 app = Flask(__name__)
 CORS(app)
@@ -69,5 +70,49 @@ def recommendWater():
     recommendedIntake = response.choices[0].message.content.strip()
     return jsonify({"recommendedWater": recommendedIntake})
 
+@app.route('/api/product', methods=['POST'])
+def addFromProduct():
+    data = request.get_json()
+    product_name = data.get('productName')
+    
+    if not product_name:
+        return jsonify({'error': 'No product name provided'}), 400
+
+    # Query Open Food Facts
+    url = f"https://world.openfoodfacts.org/cgi/search.pl"
+    params = {
+        'search_terms': product_name,
+        'search_simple': 1,
+        'action': 'process',
+        'json': 1
+    }
+    response = requests.get(url, params=params)
+    jsonData = response.json()
+
+    if 'products' not in jsonData or not jsonData['products']:
+        return jsonify({'error': 'No product found'}), 404
+
+    # Check if product is a water-related drink
+    product = jsonData['products'][0]
+    product_name = product.get('product_name', '').lower()
+    categories = product.get('categories', '').lower()
+
+    if 'water' in categories or 'bottle' in product_name:
+        quantity_str = product.get('quantity', '').lower()
+        actual_amount = 0
+        if 'ml' in quantity_str:
+            actual_amount = int(''.join(filter(str.isdigit, quantity_str)))
+        elif 'l' in quantity_str:
+            try:
+                num = float(''.join(filter(lambda c: c.isdigit() or c == '.', quantity_str)))
+                actual_amount = int(num * 1000)
+            except ValueError:
+                actual_amount = 0
+        if actual_amount <= 0:
+            actual_amount = 250
+        waterLog.append(actual_amount)
+        return jsonify({'added': actual_amount, 'totalWater': sum(waterLog)})
+    else:
+        return jsonify({'error': 'Product is not water'}), 400
 if __name__ == '__main__':
     app.run()

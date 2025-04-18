@@ -92,6 +92,27 @@ function App() {
       }
     })
   };
+  const addFromProduct = () => {
+    const input = window.prompt("Enter product name (e.g., 'Evian', 'Dasani'):");
+    if (input) {
+      fetch('http://localhost:5000/api/product', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productName: input })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.totalWater !== undefined) {
+          setGlobalTotalWater(data.totalWater);
+          alert("Water logged from product: " + data.added + " mL");
+        } else if (data.error) {
+          alert("Error: " + data.error);
+        }
+      });
+    }
+  };
 
   // Fetch initial water total from the backend
   useEffect(() => {
@@ -206,6 +227,19 @@ function App() {
           width: '225px'             
         }} 
       />
+      <img 
+        src={manualButton} 
+        alt="Product Button" 
+        style={{
+        cursor: 'pointer',
+        position: 'absolute',  
+        top: '670px',          
+        left: '50%',         
+        transform: 'translateX(-50%)',
+        width: '150px'         
+        }}
+      onClick={addFromProduct}
+    />
 
       <img 
         src={manualButton} 
