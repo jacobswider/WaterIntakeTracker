@@ -70,6 +70,14 @@ function HomePage() {
     });
   }, []);
 
+  const progressPercent = recommendedIntake
+    ? Math.min((globalTotalWater / recommendedIntake) * 100, 100)
+    : 0;
+
+  const progressColor = globalTotalWater >= recommendedIntake
+    ? 'linear-gradient(to right, #4caf50, #388e3c)' // green when goal met
+    : 'linear-gradient(to right, #00bcd4, #0077b6)'; // default blue
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -111,8 +119,38 @@ function HomePage() {
         </Link>
       </div>
 
-      {/* Center Water Image */}
-      <img src={water} alt="Water" style={{ width: '250px' }} />
+      {/* Water Bottle Image */}
+      <img 
+        src={water} 
+        alt="Water Bottle" 
+        style={{
+          width: '160px',
+          height: 'auto',
+          marginBottom: '20px',
+          opacity: 0.95
+        }} 
+      />
+
+      {/* Smooth Gradient Progress Bar */}
+      <div style={{
+        width: '80%',
+        maxWidth: '400px',
+        height: '35px',
+        backgroundColor: '#e0f7fa',
+        borderRadius: '20px',
+        overflow: 'hidden',
+        boxShadow: 'inset 0 0 5px rgba(0,0,0,0.1)',
+        position: 'relative',
+        marginBottom: '20px',
+      }}>
+        <div style={{
+          height: '100%',
+          width: `${progressPercent}%`,
+          background: progressColor,
+          borderRadius: '20px 0 0 20px',
+          transition: 'width 0.5s ease-in-out',
+        }} />
+      </div>
 
     </div>
   );
