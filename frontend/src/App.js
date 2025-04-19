@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import water from './water.png';
 import manualButton from './manualbutton.png';
 import addamount from './addamount.png';
 import title from './title.png';
 import reset from './reset.png';
 import aiText from './aiText.png';
+import ProductSearch from './ProductSearch';
 
-function App() {
+function HomePage() {
   // Use React state to track total water and recommended intake
   const [globalTotalWater, setGlobalTotalWater] = useState(0);
   const [recommendedIntake, setRecommendedIntake] = useState(null);
@@ -63,7 +65,7 @@ function App() {
   // Function to get the recommended daily water intake from ai API
   const getRecommendedWater = () => {
     // Get user information using prompts
-    const height = parseFloat(window.prompt("Enter your height in ft (e.g., '6ft 3'):"));
+    const height = parseFloat(window.prompt("Enter your height in ft (e.g., '6.3' for 6ft 3in):"));
     const weight = parseFloat(window.prompt("Enter your weight in lbs:"));
     const age = parseFloat(window.prompt("Enter your age:"));
     const gender = window.prompt("Enter your gender (male/female):");
@@ -91,27 +93,6 @@ function App() {
         alert(`Recommended daily water intake: ${data.recommendedWater} mL`);
       }
     })
-  };
-  const addFromProduct = () => {
-    const input = window.prompt("Enter product name (e.g., 'Evian', 'Dasani'):");
-    if (input) {
-      fetch('http://localhost:5000/api/product', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ productName: input })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.totalWater !== undefined) {
-          setGlobalTotalWater(data.totalWater);
-          alert("Water logged from product: " + data.added + " mL");
-        } else if (data.error) {
-          alert("Error: " + data.error);
-        }
-      });
-    }
   };
 
   // Fetch initial water total from the backend
@@ -145,7 +126,6 @@ function App() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-
       <div 
         style={{
           position: 'absolute',
@@ -227,19 +207,27 @@ function App() {
           width: '225px'             
         }} 
       />
-      <img 
-        src={manualButton} 
-        alt="Product Button" 
-        style={{
-        cursor: 'pointer',
-        position: 'absolute',  
-        top: '670px',          
-        left: '50%',         
-        transform: 'translateX(-50%)',
-        width: '150px'         
-        }}
-      onClick={addFromProduct}
-    />
+
+      {/* Product Search Page Link */}
+      <Link to="/product-search">
+        <button style={{
+          cursor: 'pointer',
+          position: 'absolute',  
+          top: '670px',          
+          left: '50%',         
+          transform: 'translateX(-50%)',
+          width: '200px',
+          height: '50px',
+          backgroundColor: '#2196F3',
+          color: 'white',
+          border: 'none',
+          borderRadius: '25px',
+          fontSize: '16px',
+          fontWeight: 'bold'
+        }}>
+          Search Products
+        </button>
+      </Link>
 
       <img 
         src={manualButton} 
@@ -266,6 +254,17 @@ function App() {
         }}
       />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/product-search" element={<ProductSearch />} />
+      </Routes>
+    </Router>
   );
 }
 

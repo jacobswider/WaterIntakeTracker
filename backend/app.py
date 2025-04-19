@@ -6,7 +6,7 @@ import requests
 app = Flask(__name__)
 CORS(app)
 
-API_KEY = "REPLACE"
+API_KEY = "REPLACE"  # Replace with your actual API key
 
 # Initialize the OpenAI client with the API key
 client = OpenAI(api_key=API_KEY)
@@ -45,6 +45,7 @@ def resetWater():
 
 @app.route('/api/recommend', methods=['POST'])
 def recommendWater():
+    global recommendedIntake
     data = request.get_json()
     height = data.get('height')
     weight = data.get('weight')
@@ -52,7 +53,7 @@ def recommendWater():
     gender = data.get('gender')
     
     prompt = (
-        f"Based on the following details, provide the recommended daily water intake in milliLiters"
+        f"Based on the following details, provide the recommended daily water intake in milliLiters "
         f"for a person. The details are: Height: {height} ft, "
         f"Weight: {weight} lb, Age: {age} years, Gender: {gender}. "
         f"Reply with only a single number in milliLiters (e.g., '3700')."
@@ -67,11 +68,12 @@ def recommendWater():
         temperature=0
     )
     
-    recommendedIntake = response.choices[0].message.content.strip()
+    recommendedIntake = float(response.choices[0].message.content.strip())
     return jsonify({"recommendedWater": recommendedIntake})
 
 @app.route('/api/product', methods=['POST'])
 def addFromProduct():
+    global waterLog
     data = request.get_json()
     product_name = data.get('productName')
     
@@ -97,7 +99,7 @@ def addFromProduct():
     product_name = product.get('product_name', '').lower()
     categories = product.get('categories', '').lower()
 
-    if 'water' in categories or 'bottle' in product_name:
+    if 'water' in categories or 'water' in product_name or 'bottle' in product_name:
         quantity_str = product.get('quantity', '').lower()
         actual_amount = 0
         if 'ml' in quantity_str:
@@ -109,10 +111,11 @@ def addFromProduct():
             except ValueError:
                 actual_amount = 0
         if actual_amount <= 0:
-            actual_amount = 250
+            actual_amount = 250  # Default amount if we can't determine the size
         waterLog.append(actual_amount)
         return jsonify({'added': actual_amount, 'totalWater': sum(waterLog)})
     else:
         return jsonify({'error': 'Product is not water'}), 400
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
