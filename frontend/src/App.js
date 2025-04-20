@@ -119,17 +119,48 @@ function HomePage() {
         </Link>
       </div>
 
-      {/* Water Bottle Image */}
-      <img 
-        src={water} 
-        alt="Water Bottle" 
-        style={{
-          width: '160px',
-          height: 'auto',
-          marginBottom: '20px',
-          opacity: 0.95
-        }} 
-      />
+          {/* Water Bottle Image */}
+          <div style={{
+      position: 'relative',
+      width: '160px',
+      height: '300px',
+      marginBottom: '20px',
+    }}>
+  {/* Bottle Image (always visible) */}
+  <img 
+    src={water} 
+    alt="water bottle" 
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      zIndex: 1,
+    }} 
+  />
+
+    {/* Water Fill (under the bottle outline) */}
+    <div style={{
+      position: 'absolute',
+      bottom: 0,
+      width: '100%',
+      height: '100%',
+      background: 'linear-gradient(to top, #007BFF, #00BFFF)',
+      WebkitMaskImage: `url(${water})`,
+      maskImage: `url(${water})`,
+      WebkitMaskSize: '100% 100%',
+      maskSize: '100% 100%',
+      WebkitMaskRepeat: 'no-repeat',
+      maskRepeat: 'no-repeat',
+      WebkitMaskPosition: 'center',
+      maskPosition: 'center',
+      transition: 'clip-path 0.6s ease-in-out',
+      clipPath: `inset(${100 - progressPercent}% 0 0 0)`,
+      zIndex: 0,
+    }} />
+  </div>
+
 
       {/* Smooth Gradient Progress Bar */}
       <div style={{
