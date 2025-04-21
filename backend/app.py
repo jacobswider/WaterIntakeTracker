@@ -131,20 +131,21 @@ def search_products():
     if not query or len(query) < 2:
         return jsonify({'results': []})
     
-    # Search the trie for products matching the query
     results = product_trie.search(query)
-    
-    # If no results in trie, search the API
-    if not results:
-        results = search_food_api(query)
-        
-        # Add results to trie for future searches
-        for product in results:
-            product_name = product.get('product_name', '')
-            if product_name:
-                product_trie.insert(product_name, product)
-    
-    return jsonify({'results': results[:10]})  # Limit to top 10 results
+
+    # If prefix‑only search yields under 10, fall back to the API
+    if len(results) < 10:
+        api_results = search_food_api(query)
+
+        # Insert those into the trie cache
+        for product in api_results:
+            name = product.get('product_name', '').lower()
+            if name:
+                product_trie.insert(name, product)
+
+        results = api_results
+
+    return jsonify({'results': results[:10]})
 
 def search_food_api(query):
     url = "https://world.openfoodfacts.org/cgi/search.pl"
