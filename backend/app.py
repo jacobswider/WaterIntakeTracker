@@ -23,6 +23,8 @@ productCache = {}
 # Global list to store favorite water products
 favoriteProducts = []
 
+favoriteProductsMap = {}
+
 # Trie node structure
 class TrieNode:
     def __init__(self):
@@ -240,20 +242,25 @@ def get_favorites():
 
 @app.route('/api/add-favorite', methods=['POST'])
 def add_favorite():
-    global favoriteProducts
+    global favoriteProducts, favoriteProductsMap
     data = request.get_json()
     
     product = {
         'id': data.get('id', ''),
         'name': data.get('name', 'Water Product'),
         'brand': data.get('brand', 'Unknown Brand'),
-        'amount': data.get('amount', 250),
+        'amount': data.get('amount', 500),
         'image_url': data.get('image_url', '')
     }
     
+    product_id = product['id']
+    
     # Check if this product is already in favorites
-    if not any(fav['id'] == product['id'] for fav in favoriteProducts):
+    if product_id not in favoriteProductsMap:
+        # Add to list for ordered iteration (used in UI display)
         favoriteProducts.append(product)
+        # Add to hash map for O(1) lookups
+        favoriteProductsMap[product_id] = product
     
     return jsonify({'status': 'success', 'favoriteProducts': favoriteProducts})
 
@@ -263,8 +270,8 @@ def add_from_favorite():
     data = request.get_json()
     favorite_id = data.get('favoriteId')
     
-    # Find the favorite product by ID
-    favorite = next((fav for fav in favoriteProducts if fav['id'] == favorite_id), None)
+    # Find the favorite product by ID - O(1) lookup with hash table
+    favorite = favoriteProductsMap.get(favorite_id)
     
     if not favorite:
         return jsonify({'error': 'Favorite product not found'}), 404
@@ -287,11 +294,15 @@ def add_from_favorite():
 
 @app.route('/api/remove-favorite', methods=['POST'])
 def remove_favorite():
-    global favoriteProducts
+    global favoriteProducts, favoriteProductsMap
     data = request.get_json()
     favorite_id = data.get('favoriteId')
     
-    # Remove favorite product with matching ID
+    # Remove from hash map (O(1) operation)
+    if favorite_id in favoriteProductsMap:
+        del favoriteProductsMap[favorite_id]
+    
+    # Remove from list
     favoriteProducts = [fav for fav in favoriteProducts if fav['id'] != favorite_id]
     
     return jsonify({
