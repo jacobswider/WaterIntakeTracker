@@ -23,9 +23,6 @@ function ProductSearch() {
   // State to track which products have been saved as favorites
   const [savedProducts, setSavedProducts] = useState([]);
 
-  // Reference for debounce timeout
-  const searchTimeoutRef = useRef(null);
-
   // Function to handle product search with trie backend
   const searchProduct = (searchQuery = searchTerm) => {
     // Validate that search term is not empty
@@ -57,14 +54,22 @@ function ProductSearch() {
         setShowResults(false);
       } else {
         // Process and format the search results from the trie-based endpoint
-        const formattedResults = data.results.map(product => ({
-          id: product.code || product._id || `product-${Math.random().toString(36).substr(2, 9)}`,
-          name: product.product_name || 'Unknown Product',
-          brand: product.brands || 'Unknown Brand',
-          image_url: product.image_url || product.image_front_url || null,
-          amount: calculateWaterAmount(product)
-        }));
-        
+        const formattedResults = data.results.map(product => {
+          const waterAmount = calculateWaterAmount(product);
+          
+          // Only include products with water amount less than or equal to 2000 mL
+          if (waterAmount <= 2000) {
+            return {
+              id: product.code || product._id || `product-${Math.random().toString(36).substr(2, 9)}`,
+              name: product.product_name || 'Unknown Product',
+              brand: product.brands || 'Unknown Brand',
+              image_url: product.image_url || product.image_front_url || null,
+              amount: waterAmount
+            };
+          }
+          return null;  // Return null for products over 2000 mL
+        }).filter(Boolean);  // Filter out null values
+
         // Store search results and update UI
         setSearchResults(formattedResults);
         setShowResults(true);
@@ -100,34 +105,47 @@ function ProductSearch() {
     }
     
     // Default water amount if we couldn't determine from data
-    return amount > 0 ? amount : 250;
+    return amount > 0 ? amount : 500;
   };
 
-  // Debounced search function for live search
   const handleSearchInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    
-    // Clear any existing timeout
-    if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current);
-    }
-    
-    // Only search if we have at least 2 characters
-    if (value.trim().length >= 2) {
-      // Set new timeout for debounced search
-      searchTimeoutRef.current = setTimeout(() => {
-        searchProduct(value);
-      }, 500); // Wait 500ms after typing stops
-    } else {
-      // Clear results if search term is too short
-      setSearchResults([]);
-      setShowResults(false);
-      setMessage('');
-    }
   };
 
-  // Function to handle product selection
+
+  const saveToFavorites = (product) => {
+    fetch('http://localhost:5000/api/add-favorite', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: product.id,
+        name: product.name,
+        brand: product.brand,
+        amount: product.amount,
+        image_url: product.image_url
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'success') {
+        // Get the latest favorites from the server response
+        if (data.favoriteProducts) {
+          const favoriteIds = data.favoriteProducts.map(fav => fav.id);
+          setSavedProducts(favoriteIds);
+        } else {
+          // Fallback to just adding this product ID
+          setSavedProducts(prev => [...prev, product.id]);
+        }
+      }
+    })
+    .catch(err => {
+      console.error('Error saving favorite:', err);
+    });
+  };
+
   const selectProduct = (product) => {
     // Make API request to add selected product to water log
     fetch('http://localhost:5000/api/product', {
@@ -149,12 +167,8 @@ function ProductSearch() {
         // Show success message with the amount added
         setMessage(`Successfully added ${data.added}mL of water from ${product.name}!`);
         
-        // Add the product ID to saved products for UI indication
-        setSavedProducts(prev => [...prev, product.id]);
-        
-        // Store in localStorage for persistence
-        const savedProductsIds = [...savedProducts, product.id];
-        localStorage.setItem('savedWaterProducts', JSON.stringify(savedProductsIds));
+        // Save the product as a favorite
+        saveToFavorites(product);
       }
     })
     .catch(err => {
@@ -164,16 +178,20 @@ function ProductSearch() {
     });
   };
 
-  // Load saved products from localStorage on component mount
   useEffect(() => {
-    const savedProductsFromStorage = localStorage.getItem('savedWaterProducts');
-    if (savedProductsFromStorage) {
-      try {
-        setSavedProducts(JSON.parse(savedProductsFromStorage));
-      } catch (e) {
-        console.error('Error parsing saved products:', e);
-      }
-    }
+    // Fetch the current favorite products from the server
+    fetch('http://localhost:5000/api/favorites')
+      .then(res => res.json())
+      .then(data => {
+        if (data.favoriteProducts) {
+          // Extract just the IDs for highlighting in the UI
+          const favoriteIds = data.favoriteProducts.map(fav => fav.id);
+          setSavedProducts(favoriteIds);
+        }
+      })
+      .catch(err => {
+        console.error('Error fetching favorites:', err);
+      });
   }, []);
 
   // Component render function
@@ -308,19 +326,6 @@ function ProductSearch() {
                   onMouseEnter={() => setHoveredProduct(product.id || index)} // Track mouse enter
                   onMouseLeave={() => setHoveredProduct(null)}   // Track mouse leave
                 >
-                  {/* Favorite indicator */}
-                  {savedProducts.includes(product.id) && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '10px',
-                      right: '10px',
-                      color: '#ff9800',
-                      fontSize: '18px',
-                    }}>
-                      ★
-                    </div>
-                  )}
-
                   {/* Product image and details container */}
                   <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                     {/* Product image - only shown if image URL exists */}
@@ -361,11 +366,9 @@ function ProductSearch() {
                   }}>
                     {product.amount} mL                          {/* Display water amount */}
                     {/* Add text indicating click will save to favorites */}
-                    {!savedProducts.includes(product.id) && (
-                      <span style={{ fontSize: '12px', display: 'block', marginTop: '3px' }}>
-                        Click to add & save
-                      </span>
-                    )}
+                    <span style={{ fontSize: '12px', display: 'block', marginTop: '3px' }}>
+                      Click to add & save
+                    </span>
                   </div>
                 </div>
               ))}
@@ -405,4 +408,4 @@ function ProductSearch() {
   );
 }
 
-export default ProductSearch; // Export the component
+export default ProductSearch;

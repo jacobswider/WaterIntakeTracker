@@ -20,6 +20,8 @@ waterLog = []
 recommendedIntake = None
 # Global product cache with trie structure
 productCache = {}
+# Global list to store favorite water products
+favoriteProducts = []
 
 # Trie node structure
 class TrieNode:
@@ -215,27 +217,87 @@ def addFromProduct():
     if not product:
         return jsonify({'error': 'No product found'}), 404
 
-    # Check if product is a water-related drink
-    product_name = product.get('product_name', '').lower()
-    categories = product.get('categories', '').lower()
+    # Get quantity information
+    quantity_str = product.get('quantity', '').lower()
+    actual_amount = 0
+    if 'ml' in quantity_str:
+        actual_amount = int(''.join(filter(str.isdigit, quantity_str)))
+    elif 'l' in quantity_str:
+        try:
+            num = float(''.join(filter(lambda c: c.isdigit() or c == '.', quantity_str)))
+            actual_amount = int(num * 1000)
+        except ValueError:
+            actual_amount = 0
+    if actual_amount <= 0:
+        actual_amount = 500  # Default amount if we can't determine the size
+    waterLog.append(actual_amount)
+    return jsonify({'added': actual_amount, 'totalWater': sum(waterLog)})
 
-    if 'water' in categories or 'water' in product_name or 'bottle' in product_name:
-        quantity_str = product.get('quantity', '').lower()
-        actual_amount = 0
-        if 'ml' in quantity_str:
-            actual_amount = int(''.join(filter(str.isdigit, quantity_str)))
-        elif 'l' in quantity_str:
-            try:
-                num = float(''.join(filter(lambda c: c.isdigit() or c == '.', quantity_str)))
-                actual_amount = int(num * 1000)
-            except ValueError:
-                actual_amount = 0
-        if actual_amount <= 0:
-            actual_amount = 250  # Default amount if we can't determine the size
-        waterLog.append(actual_amount)
-        return jsonify({'added': actual_amount, 'totalWater': sum(waterLog)})
-    else:
-        return jsonify({'error': 'Product is not water'}), 400
+@app.route('/api/favorites', methods=['GET'])
+def get_favorites():
+    return jsonify({'favoriteProducts': favoriteProducts})
+
+@app.route('/api/add-favorite', methods=['POST'])
+def add_favorite():
+    global favoriteProducts
+    data = request.get_json()
+    
+    product = {
+        'id': data.get('id', ''),
+        'name': data.get('name', 'Water Product'),
+        'brand': data.get('brand', 'Unknown Brand'),
+        'amount': data.get('amount', 250),
+        'image_url': data.get('image_url', '')
+    }
+    
+    # Check if this product is already in favorites
+    if not any(fav['id'] == product['id'] for fav in favoriteProducts):
+        favoriteProducts.append(product)
+    
+    return jsonify({'status': 'success', 'favoriteProducts': favoriteProducts})
+
+@app.route('/api/add-from-favorite', methods=['POST'])
+def add_from_favorite():
+    global waterLog
+    data = request.get_json()
+    favorite_id = data.get('favoriteId')
+    
+    # Find the favorite product by ID
+    favorite = next((fav for fav in favoriteProducts if fav['id'] == favorite_id), None)
+    
+    if not favorite:
+        return jsonify({'error': 'Favorite product not found'}), 404
+    
+    # Add the water amount from the favorite product
+    amount = favorite['amount']
+    waterLog.append(amount)
+    
+    total = sum(waterLog)
+    
+    # Cap the total at recommended intake if set
+    if recommendedIntake is not None and total > recommendedIntake:
+        total = recommendedIntake
+    
+    return jsonify({
+        'added': amount, 
+        'totalWater': total,
+        'message': f"Added {amount}mL from {favorite['name']}"
+    })
+
+@app.route('/api/remove-favorite', methods=['POST'])
+def remove_favorite():
+    global favoriteProducts
+    data = request.get_json()
+    favorite_id = data.get('favoriteId')
+    
+    # Remove favorite product with matching ID
+    favoriteProducts = [fav for fav in favoriteProducts if fav['id'] != favorite_id]
+    
+    return jsonify({
+        'status': 'success',
+        'favoriteProducts': favoriteProducts,
+        'message': 'Favorite removed successfully'
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
