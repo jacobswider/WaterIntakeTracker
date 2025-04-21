@@ -128,7 +128,7 @@ function HomePage() {
         }
       })
       .catch(err => console.error('Error fetching favorites:', err));
-  },);
+  }, []);
 
   const progressPercent = recommendedIntake
     ? Math.min((globalTotalWater / recommendedIntake) * 100, 100)
