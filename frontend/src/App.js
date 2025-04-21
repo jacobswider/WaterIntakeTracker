@@ -68,7 +68,7 @@ function HomePage() {
         setRecommendedIntake(data.recommendedIntake);
       }
     });
-  }, []);
+  },);
 
   const progressPercent = recommendedIntake
     ? Math.min((globalTotalWater / recommendedIntake) * 100, 100)

@@ -18,6 +18,55 @@ client = OpenAI(api_key=API_KEY)
 waterLog = []
 # Global variable to store recommended intake
 recommendedIntake = None
+# Global product cache with trie structure
+productCache = {}
+
+# Trie node structure
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end_of_word = False
+        self.product_data = None
+
+# Trie data structure for efficient product search
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, word, product_data):
+        node = self.root
+        word = word.lower()
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end_of_word = True
+        node.product_data = product_data
+    
+    def search(self, prefix):
+        results = []
+        node = self.root
+        prefix = prefix.lower()
+        
+        # Navigate to the node representing the prefix
+        for char in prefix:
+            if char not in node.children:
+                return results
+            node = node.children[char]
+        
+        # Collect all words with the given prefix
+        self._collect_words(node, prefix, results)
+        return results
+    
+    def _collect_words(self, node, prefix, results):
+        if node.is_end_of_word:
+            results.append(node.product_data)
+        
+        for char, child_node in node.children.items():
+            self._collect_words(child_node, prefix + char, results)
+
+# Initialize the trie
+product_trie = Trie()
 
 @app.route('/api/water', methods=['POST'])
 def addWater():
@@ -74,31 +123,99 @@ def recommendWater():
     recommendedIntake = float(response.choices[0].message.content.strip())
     return jsonify({"recommendedWater": recommendedIntake})
 
+@app.route('/api/search/products', methods=['GET'])
+def search_products():
+    query = request.args.get('q', '')
+    if not query or len(query) < 2:
+        return jsonify({'results': []})
+    
+    # Search the trie for products matching the query
+    results = product_trie.search(query)
+    
+    # If no results in trie, search the API
+    if not results:
+        results = search_food_api(query)
+        
+        # Add results to trie for future searches
+        for product in results:
+            product_name = product.get('product_name', '')
+            if product_name:
+                product_trie.insert(product_name, product)
+    
+    return jsonify({'results': results[:10]})  # Limit to top 10 results
+
+def search_food_api(query):
+    url = "https://world.openfoodfacts.org/cgi/search.pl"
+    params = {
+        'search_terms': query,
+        'search_simple': 1,
+        'action': 'process',
+        'json': 1,
+        'page_size': 10
+    }
+    
+    try:
+        response = requests.get(url, params=params)
+        data = response.json()
+        if 'products' in data:
+            return data['products']
+    except Exception as e:
+        print(f"Error searching food API: {e}")
+    
+    return []
+
 @app.route('/api/product', methods=['POST'])
 def addFromProduct():
     global waterLog
     data = request.get_json()
     product_name = data.get('productName')
+    product_id = data.get('productId')
     
-    if not product_name:
-        return jsonify({'error': 'No product name provided'}), 400
+    if not product_name and not product_id:
+        return jsonify({'error': 'No product name or ID provided'}), 400
 
-    # Query Open Food Facts
-    url = f"https://world.openfoodfacts.org/cgi/search.pl"
-    params = {
-        'search_terms': product_name,
-        'search_simple': 1,
-        'action': 'process',
-        'json': 1
-    }
-    response = requests.get(url, params=params)
-    jsonData = response.json()
+    product = None
+    
+    # If product_id is provided, try to look up directly
+    if product_id:
+        url = f"https://world.openfoodfacts.org/api/v0/product/{product_id}.json"
+        try:
+            response = requests.get(url)
+            data = response.json()
+            if data.get('status') == 1:
+                product = data.get('product')
+        except Exception as e:
+            print(f"Error fetching product by ID: {e}")
+    
+    # If no product found by ID or no ID provided, search by name
+    if not product:
+        # First check the trie
+        results = product_trie.search(product_name)
+        if results:
+            product = results[0]  # Use the first match
+        else:
+            # Query Open Food Facts
+            url = "https://world.openfoodfacts.org/cgi/search.pl"
+            params = {
+                'search_terms': product_name,
+                'search_simple': 1,
+                'action': 'process',
+                'json': 1
+            }
+            try:
+                response = requests.get(url, params=params)
+                jsonData = response.json()
+                if 'products' in jsonData and jsonData['products']:
+                    product = jsonData['products'][0]
+                    # Add to trie for future searches
+                    product_trie.insert(product.get('product_name', ''), product)
+            except Exception as e:
+                return jsonify({'error': f'API error: {str(e)}'}), 500
 
-    if 'products' not in jsonData or not jsonData['products']:
+    if not product:
         return jsonify({'error': 'No product found'}), 404
 
     # Check if product is a water-related drink
-    product = jsonData['products'][0]
     product_name = product.get('product_name', '').lower()
     categories = product.get('categories', '').lower()
 
