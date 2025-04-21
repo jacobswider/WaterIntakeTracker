@@ -23,6 +23,8 @@ function ProductSearch() {
   // State to track which products have been saved as favorites
   const [savedProducts, setSavedProducts] = useState([]);
 
+  const searchTimeoutRef = useRef(null);
+
   // Function to handle product search with trie backend
   const searchProduct = (searchQuery = searchTerm) => {
     // Validate that search term is not empty
@@ -111,6 +113,24 @@ function ProductSearch() {
   const handleSearchInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
+    
+    // Clear any existing timeout
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    // Only search if we have at least 2 characters
+    if (value.trim().length >= 2) {
+      // Set new timeout for debounced search
+      searchTimeoutRef.current = setTimeout(() => {
+        searchProduct(value);
+      }, 500); // Wait 500ms after typing stops
+    } else {
+      // Clear results if search term is too short
+      setSearchResults([]);
+      setShowResults(false);
+      setMessage('');
+    }
   };
 
 
