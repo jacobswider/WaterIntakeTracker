@@ -243,9 +243,9 @@ function ProductSearch() {
         backgroundColor: 'white',         
         borderRadius: '15px',            
         padding: '30px',                  
-        width: '80%',                     // Take 80% of parent width
-        maxWidth: '800px',                // Maximum width limit
-        boxShadow: '0 4px 8px rgba(0,0,0,0.1)' // Subtle shadow
+        width: '80%',
+        maxWidth: '800px',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
       }}>
         {/* Page title */}
         <h2 style={{ textAlign: 'center', color: '#2196F3', marginBottom: '30px' }}>
@@ -285,8 +285,8 @@ function ProductSearch() {
               padding: '12px 20px',                  
               borderRadius: '0 25px 25px 0',         
               border: 'none',                       
-              fontSize: '16px',                      // Text size
-              cursor: loading ? 'not-allowed' : 'pointer' // Cursor style based on state
+              fontSize: '16px',
+              cursor: loading ? 'not-allowed' : 'pointer'
             }}
           >
             {loading ? 'Searching...' : 'Search'}    {/* Dynamic button text */}
@@ -296,11 +296,11 @@ function ProductSearch() {
         {/* Status message display - only shown when message exists */}
         {message && (
           <div style={{
-            padding: '15px',                                          // Inner padding
-            backgroundColor: message.includes('Error') ? '#ffebee' : '#e8f5e9', // Red for error, green for success
-            borderRadius: '8px',                                      // Rounded corners
-            marginBottom: '20px',                                     // Bottom margin
-            textAlign: 'center'                                       // Center text
+            padding: '15px',
+            backgroundColor: message.includes('Error') ? '#ffebee' : '#e8f5e9',
+            borderRadius: '8px',
+            marginBottom: '20px',
+            textAlign: 'center'
           }}>
             {message} {/* Display the message */}
           </div>
@@ -323,24 +323,24 @@ function ProductSearch() {
                 <div 
                   key={product.id || index}  // React key for list items (use ID or index)
                   style={{
-                    border: '1px solid #e0e0e0',                 // Light border
-                    borderRadius: '10px',                        // Rounded corners
-                    padding: '15px',                             // Inner padding
-                    display: 'flex',                             // Flexbox layout
-                    flexDirection: 'column',                     // Stack children vertically
-                    boxShadow: hoveredProduct === (product.id || index)   // Dynamic shadow based on hover
-                      ? '0 4px 8px rgba(0,0,0,0.1)'              // Stronger shadow when hovered
-                      : '0 2px 4px rgba(0,0,0,0.05)',            // Subtle shadow by default
-                    backgroundColor: savedProducts.includes(product.id)  // Color background if saved
-                      ? '#e3f2fd'                                // Light blue for saved products
-                      : '#f9f9f9',                               // Light gray for unsaved products
-                    transform: hoveredProduct === (product.id || index)   // Dynamic transform based on hover
-                      ? 'scale(1.02)'                            // Slightly enlarge when hovered
-                      : 'scale(1)',                              // Normal size by default
-                    transition: 'transform 0.2s, box-shadow 0.2s', // Smooth transition for hover effects
-                    cursor: 'pointer',                           // Hand cursor to indicate clickable
-                    height: '100%',                              // Full height within grid cell
-                    position: 'relative',                        // For positioning the favorite icon
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '10px',
+                    padding: '15px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    boxShadow: hoveredProduct === (product.id || index)
+                      ? '0 4px 8px rgba(0,0,0,0.1)'
+                      : '0 2px 4px rgba(0,0,0,0.05)',
+                    backgroundColor: savedProducts.includes(product.id)
+                      ? '#e3f2fd'
+                      : '#f9f9f9',
+                    transform: hoveredProduct === (product.id || index)
+                      ? 'scale(1.02)'
+                      : 'scale(1)',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    cursor: 'pointer',
+                    height: '100%',
+                    position: 'relative',
                   }} 
                   onClick={() => selectProduct(product)}         // Handle click to select product
                   onMouseEnter={() => setHoveredProduct(product.id || index)} // Track mouse enter
@@ -352,13 +352,13 @@ function ProductSearch() {
                     {product.image_url && (
                       <img 
                         src={product.image_url}                  // Image source from API
-                        alt={product.name}                       // Alt text using product name
+                        alt={product.name}
                         style={{ 
-                          width: '60px',                         // Image width
-                          height: '60px',                        // Image height
-                          objectFit: 'contain',                  // Maintain aspect ratio
-                          marginRight: '10px',                   // Space between image and text
-                          borderRadius: '5px'                    // Slightly rounded corners
+                          width: '60px',
+                          height: '60px',
+                          objectFit: 'contain',
+                          marginRight: '10px',
+                          borderRadius: '5px'
                         }} 
                         onError={(e) => {
                           // Fallback for broken images
@@ -376,13 +376,13 @@ function ProductSearch() {
                   
                   {/* Water amount badge */}
                   <div style={{
-                    marginTop: 'auto',                           // Push to bottom of container
-                    padding: '8px 12px',                         // Inner padding
-                    backgroundColor: '#2196F3',                  // Blue background
-                    color: 'white',                              // White text
-                    borderRadius: '20px',                        // Fully rounded corners (pill shape)
-                    textAlign: 'center',                         // Center text
-                    fontWeight: 'bold'                           // Bold text
+                    marginTop: 'auto',
+                    padding: '8px 12px',
+                    backgroundColor: '#2196F3',
+                    color: 'white',
+                    borderRadius: '20px',
+                    textAlign: 'center',
+                    fontWeight: 'bold'
                   }}>
                     {product.amount} mL                          {/* Display water amount */}
                     {/* Add text indicating click will save to favorites */}
@@ -411,15 +411,15 @@ function ProductSearch() {
       {/* Back button - links to home page */}
       <Link to="/">
         <button style={{
-          marginTop: '30px',                                    // Space above button
-          backgroundColor: '#2196F3',                           // Blue background
-          color: 'white',                                       // White text
-          border: 'none',                                       // No border
-          borderRadius: '25px',                                 // Fully rounded corners
-          padding: '12px 24px',                                 // Inner padding
-          fontSize: '16px',                                     // Text size
-          cursor: 'pointer',                                    // Hand cursor
-          boxShadow: '0 2px 4px rgba(0,0,0,0.2)'               // Button shadow
+          marginTop: '30px',
+          backgroundColor: '#2196F3',
+          color: 'white',
+          border: 'none',
+          borderRadius: '25px',
+          padding: '12px 24px',
+          fontSize: '16px',
+          cursor: 'pointer',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
         }}>
           Back to Water Tracker                                 {/* Button text */}
         </button>
