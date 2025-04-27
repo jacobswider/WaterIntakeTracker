@@ -1,141 +1,122 @@
-# Full Stack Group Project
+# Water Intake Tracker
 
-## About<!-- Required -->
-<!-- 
-* information about the project 
-* 
-* keep it short and sweet
--->
+## About
 Water Intake Tracker app is used to track the amount of water the user consumes. It has features like giving recommendations based on user's height, weight, age, and gender. Another feature of the app includes a search functionality in which users can search for a brand of a water bottle and it gives results based on what the user searches. This search functionality goes through the open food facts api and displays the results based on the searches. When users select the water bottle it gets added to the total intake. Users can favorite certain water bottles, so that they can use it for later or they can just delete it if they dont want to. 
 
+## Why It Was Built
+This application was built so that users can limit their screen time, and encouraging healthier habits like tracking their water intake throughout the day. By focusing on hydration, it indirectly reduces screen time and builds more health conciousness.
 
-## Why it was built
-This application was built so that users can limit their screen time, and encouraging healthier habits like tracking their water intake throughout the day. 
+## How to Use This Project
 
-## How to use this project<!-- Required -->
-<!-- 
-* Here you may add information about how 
-* 
-* and why to use this project.
--->
-- Install the react and flask libraries needed. 
-- Run the backend first. First do cd backend, then do python3 / (python version) app.py
-- Using the server link you get, paste that to the code where the server link is used if it's not the same. If it's the same server link, then proceed to the next step. 
-- Open a new terminal. 
-- Do cd frontend, and npm start on the terminal. 
+### Using a Virtual Environment (Python Backend)
 
-## Setting up the environment variable for OpenAI API key
+1. **Navigate to the backend folder**:
+   ```bash
+   cd backend
+   ```
 
-- Install python-dotenv on terminal using the command pip install python-dotenv.
-- Create a .env file in the root of the project so in app.py. Do this by doing touch.env on the terminal.
-- Add the OpenAI API key to the .env file.
-- Add the .env to the .gitignore file. Make sure .env is initialized in .gitignore. 
+2. **Create a virtual environment**:
+   ```bash
+   python -m venv venv
+   ```
 
-## Demo<!-- Required -->
-<!-- 
-* You can add a demo here GH supports images/ GIFs/videos 
-* 
-* It's recommended to use GIFs as they are more dynamic
--->
+3. **Activate the virtual environment**:
+   - On macOS/Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+   - On Windows:
+     ```bash
+     venv\Scripts\activate
+     ```
 
+4. **Install required backend dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## Table of Contents<!-- Optional -->
-<!-- 
-* This section is optional, yet having a contents table 
-* helps keeping your README readable and more professional.
-* 
-* If you are not familiar with HTML, no worries we all been there :D 
-* Review learning resources to create anchor links. 
--->
+5. **Run the backend server**:
+   ```bash
+   python app.py
+   ```
 
+### Frontend Setup
 
-<dev align="center">
-    <table align="center">
-        <tr>
-            <td><a href="#about">About</a></td>        
-            <td><a href="#how-to-use-this-project">Getting started</td>
-            <td><a href="#demo">Demo</a></td>
-            <td><a href="#project-roadmap--">Project Roadmap</a></td>
-            <td><a href="#documentation">Documentation</a></td>
-        </tr>
-        <tr>
-            <td><a href="#contributors">Contributors</a></td>
-            <td><a href="#acknowledgments">Acknowledgments</a></td>
-            <td><a href="#feedback">Feedback</a></td>
-            <td><a href="#contact">Contact</a></td>
-            <td><a href="#license">License</a></td>
-        </tr>
-    </table>
-</dev>
+1. **Open a new terminal and navigate to the frontend folder**:
+   ```bash
+   cd frontend
+   ```
 
+2. **Install frontend dependencies**:
+   ```bash
+   npm install
+   ```
 
-<!-- - Use this html element to create a back to top button. -->
-<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
+3. **Start the frontend server**:
+   ```bash
+   npm start
+   ```
 
+### Setting Up the Environment Variables (Backend)
 
-## Project Roadmap <!-- Optional --> <!-- add learning_Rs-->
-<!-- 
-* Add this section in case the project has different phases
-* 
-* Under production or will be updated.
--->
+- Install `python-dotenv`:
+  ```bash
+  pip install python-dotenv
+  ```
 
+- Create a `.env` file in the backend root:
+  ```bash
+  touch .env
+  ```
 
-<!-- - Use this html element to create a back to top button. -->
-<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
+- Add your OpenAI API key to `.env`:
+  ```env
+  KEY=your_api_key_here
+  ```
 
 
 
-## Documentation<!-- Optional -->
-<!-- 
-* You may add any documentation or Wikis here
-* 
-* 
--->
+---
+
+## Demo
+
+**Landing Page**:  
+Users are greeted with a landing page.
+![Landing Page](demoassets/image.png)
+
+**Get Recommendation**:  
+Users input their body stats and get a recommended daily water intake goal. They can add water manually or search for products.
+![Get Recommendation](demoassets/image-2.png)
+
+**Favorites**:  
+Users automatically recieve favorite water products for quick reuse, visible under the progress bar.
+![Favorites](demoassets/image-3.png)
 
 
-## Contributors<!-- Required -->
-<!-- 
-* Without contribution we wouldn't have open source. 
-* 
-* Generate github contributors Image here https://contrib.rocks/preview?repo=angular%2Fangular-ja
--->
+---
+
+## Table of Contents
+<div align="center">
+<table>
+<tr>
+<td><a href="#about">About</a></td>
+<td><a href="#how-to-use-this-project">Getting Started</a></td>
+<td><a href="#demo">Demo</a></td>
+<td><a href="#project-roadmap">Project Roadmap</a></td>
+<td><a href="#documentation">Documentation</a></td>
+</tr>
+<tr>
+<td><a href="#contributors">Contributors</a></td>
+<td><a href="#acknowledgments">Acknowledgments</a></td>
+<td><a href="#feedback">Feedback</a></td>
+<td><a href="#contact">Contact</a></td>
+<td><a href="#license">License</a></td>
+</tr>
+</table>
+</div>
 
 
-## Acknowledgments<!-- Optional -->
-<!-- 
-* Credit where it's do 
-* 
-* Feel free to share your inspiration sources, Stackoverflow questions, github repos, tools etc.
--->
+---
 
-
-<!-- - Use this html element to create a back to top button. -->
-<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
-
-
-## Feedback<!-- Required -->
-<!-- 
-* You can add contacts information like your email and social media account 
-* 
-* Also it's common to add some PR guidance.
--->
-
-## Contact<!-- Required -->
-<!-- 
-* add your email and contact info here
-* 
-* 
--->
-
-
-## License<!-- Optional -->
-<!-- 
-* Here you can add project license for copyrights and distribution 
-* 
-* check this website for an easy reference https://choosealicense.com/)
--->
-
-
-<!-- - Use this html element to create a back to top button. -->
-<p align="right"><a href="#how-to-use-this-project">back to top ⬆️</a></p>
+## Project Roadmap
+- [ ] Deploy
