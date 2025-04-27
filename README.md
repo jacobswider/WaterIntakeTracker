@@ -9,6 +9,8 @@
 Water Intake Tracker app is used to track the amount of water the user consumes. It has features like giving recommendations based on user's height, weight, age, and gender. Another feature of the app includes a search functionality in which users can search for a brand of a water bottle and it gives results based on what the user searches. This search functionality goes through the open food facts api and displays the results based on the searches. When users select the water bottle it gets added to the total intake. Users can favorite certain water bottles, so that they can use it for later or they can just delete it if they dont want to. 
 
 
+## Why it was built
+This application was built so that users can limit their screen time, and encouraging healthier habits like tracking their water intake throughout the day. 
 
 ## How to use this project<!-- Required -->
 <!-- 
@@ -16,9 +18,11 @@ Water Intake Tracker app is used to track the amount of water the user consumes.
 * 
 * and why to use this project.
 -->
--
--
--
+- Install the react and flask libraries needed. 
+- Run the backend first. First do cd backend, then do python3 / (python version) app.py
+- Using the server link you get, paste that to the code if it's not the same as what we have for our server link. 
+- Open a new terminal. 
+- Do cd frontend, and npm start. 
 
 
 ## Demo<!-- Required -->
