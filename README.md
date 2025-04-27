@@ -6,7 +6,7 @@
 * 
 * keep it short and sweet
 -->
-hi
+Water Intake Tracker app is used to track the amount of water the user consumes. It has features like giving recommendations based on user's height, weight, age, and gender. Another feature of the app includes a search functionality in which users can search for a brand of a water bottle and it gives results based on what the user searches. This search functionality goes through the open food facts api and displays the results based on the searches. When users select the water bottle it gets added to the total intake. Users can favorite certain water bottles, so that they can use it for later or they can just delete it if they dont want to. 
 
 
 
