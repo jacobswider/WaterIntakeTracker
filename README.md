@@ -20,10 +20,16 @@ This application was built so that users can limit their screen time, and encour
 -->
 - Install the react and flask libraries needed. 
 - Run the backend first. First do cd backend, then do python3 / (python version) app.py
-- Using the server link you get, paste that to the code if it's not the same as what we have for our server link. 
+- Using the server link you get, paste that to the code where the server link is used if it's not the same. If it's the same server link, then proceed to the next step. 
 - Open a new terminal. 
-- Do cd frontend, and npm start. 
+- Do cd frontend, and npm start on the terminal. 
 
+## Setting up the environment variable for OpenAI API key
+
+- Install python-dotenv on terminal using the command pip install python-dotenv.
+- Create a .env file in the root of the project so in app.py. Do this by doing touch.env on the terminal.
+- Add the OpenAI API key to the .env file.
+- Add the .env to the .gitignore file. Make sure .env is initialized in .gitignore. 
 
 ## Demo<!-- Required -->
 <!-- 
