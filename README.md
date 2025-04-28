@@ -95,28 +95,7 @@ Users automatically recieve favorite water products for quick reuse, visible und
 
 ---
 
-## Table of Contents
-<div align="center">
-<table>
-<tr>
-<td><a href="#about">About</a></td>
-<td><a href="#how-to-use-this-project">Getting Started</a></td>
-<td><a href="#demo">Demo</a></td>
-<td><a href="#project-roadmap">Project Roadmap</a></td>
-<td><a href="#documentation">Documentation</a></td>
-</tr>
-<tr>
-<td><a href="#contributors">Contributors</a></td>
-<td><a href="#acknowledgments">Acknowledgments</a></td>
-<td><a href="#feedback">Feedback</a></td>
-<td><a href="#contact">Contact</a></td>
-<td><a href="#license">License</a></td>
-</tr>
-</table>
-</div>
-
-
----
-
-## Project Roadmap
-- [ ] Deploy
+## Contributions
+ **Jake**:
+ Role: Frontend Developer
+ Contributions: I worked on the initial backend design for communication to the front end. I also built and  polished the UI and made it more user friendly. Additionally, I helped implement some additional functions on the backend.
