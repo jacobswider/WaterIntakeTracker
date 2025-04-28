@@ -108,3 +108,7 @@ Users automatically recieve favorite water products for quick reuse, visible und
  **Sai**:
  Role: Backend Developer
  Contributions: I worked on implementing one of the data structures for our project which is Tries. I used Tries for the search functionality of the project. I was also helping with the frontend to make the UI more clean and user friendly. 
+
+  **Ethan**:
+ Role: Project Manager
+ Contributions: I worked on both the frontend and the backend. I implemented a hash table for our favorited water, as well as the chatgpt api. I worked on the search feature. I came up with the entire app design with wireframes and overall worked everywhere.
