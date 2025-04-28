@@ -6,6 +6,10 @@ Water Intake Tracker app is used to track the amount of water the user consumes.
 ## Why It Was Built
 This application was built so that users can limit their screen time, and encouraging healthier habits like tracking their water intake throughout the day. By focusing on hydration, it indirectly reduces screen time and builds more health conciousness.
 
+## React Libraries and Frameworks
+
+The normal react library has hooks that can be used to do various tasks. Our project used useState, and useEffect. We also used react router dom library for navigation between pages. Flask is being used to create a backend server for our app. We used flask for our backend because it acts as a middle layer between the react frontend and the external APIs that we used for the project. 
+
 ## How to Use This Project
 
 ### Using a Virtual Environment (Python Backend)
@@ -99,3 +103,7 @@ Users automatically recieve favorite water products for quick reuse, visible und
  **Jake**:
  Role: Frontend Developer
  Contributions: I worked on the initial backend design for communication to the front end. I also built and  polished the UI and made it more user friendly. Additionally, I helped implement some additional functions on the backend.
+
+ **Sai**:
+ Role: Backend Developer
+ Contributions: I worked on implementing one of the data structures for our project which is Tries. I used Tries for the search functionality of the project. I was also helping with the frontend to make the UI more clean and user friendly. 
