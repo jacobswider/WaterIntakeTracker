@@ -55,6 +55,10 @@ The normal react library has hooks that can be used to do various tasks. Our pro
    ```bash
    npm install
    ```
+   
+   ```bash
+   npm install react-router-dom
+   ```
 
 3. **Start the frontend server**:
    ```bash
