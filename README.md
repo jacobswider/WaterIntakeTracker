@@ -96,7 +96,8 @@ Users input their body stats and get a recommended daily water intake goal. They
 Users automatically recieve favorite water products for quick reuse, visible under the progress bar.
 ![Favorites](demoassets/image-3.png)
 
-
+**GIF Demo**
+![fulldemo](demoassets/fulldemo.gif)
 ---
 
 ## Contributions
