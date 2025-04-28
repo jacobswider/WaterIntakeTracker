@@ -100,7 +100,7 @@ Users automatically recieve favorite water products for quick reuse, visible und
 ---
 
 ## Contributions
- **Jake**:
+ **Jacob**:
  Role: Frontend Developer
  Contributions: I worked on the initial backend design for communication to the front end. I also built and  polished the UI and made it more user friendly. Additionally, I helped implement some additional functions on the backend.
 
