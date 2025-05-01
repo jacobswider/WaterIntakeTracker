@@ -3,13 +3,6 @@
 ## About
 Water Intake Tracker app is used to track the amount of water the user consumes. It has features like giving recommendations based on user's height, weight, age, and gender. Another feature of the app includes a search functionality in which users can search for a brand of a water bottle and it gives results based on what the user searches. This search functionality goes through the open food facts api and displays the results based on the searches. When users select the water bottle it gets added to the total intake. Users can favorite certain water bottles, so that they can use it for later or they can just delete it if they dont want to. 
 
-## Why It Was Built
-This application was built so that users can limit their screen time, and encouraging healthier habits like tracking their water intake throughout the day. By focusing on hydration, it indirectly reduces screen time and builds more health conciousness.
-
-## React Libraries and Frameworks
-
-The normal react library has hooks that can be used to do various tasks. Our project used useState, and useEffect. We also used react router dom library for navigation between pages. Flask is being used to create a backend server for our app. We used flask for our backend because it acts as a middle layer between the react frontend and the external APIs that we used for the project. 
-
 ## How to Use This Project
 
 ### Using a Virtual Environment (Python Backend)
@@ -103,16 +96,3 @@ Users automatically recieve favorite water products for quick reuse, visible und
 **GIF Demo**
 ![fulldemo](demoassets/fulldemo.gif)
 ---
-
-## Contributions
- **Jacob**:
- Role: Frontend Developer
- Contributions: I worked on the initial backend design for communication to the front end. I also built and  polished the UI and made it more user friendly. Additionally, I helped implement some additional functions on the backend.
-
- **Sai**:
- Role: Backend Developer
- Contributions: I worked on implementing one of the data structures for our project which is Tries. I used Tries for the search functionality of the project. I was also helping with the frontend to make the UI more clean and user friendly. 
-
-  **Ethan**:
- Role: Project Manager
- Contributions: I worked on both the frontend and the backend. I implemented a hash table for our favorited water, as well as the chatgpt api. I worked on the search feature. I came up with the entire app design with wireframes and overall worked everywhere.
